@@ -1,7 +1,7 @@
 import pytest
 import variables
 import locators
-
+import time
 
 class BaseCase:  # Базовый кейс
     driver = None
@@ -33,3 +33,17 @@ class BaseCase:  # Базовый кейс
         form = self.find(locator)
         form.clear()
         form.send_keys(value)
+
+    def get_url(self):  # Метод для получения текущего url
+        return self.driver.current_url
+
+    def logout(self):  # Метод логаута
+        time.sleep(2)
+        menu_btn = self.find(locators.MENU_LOCATOR)
+        menu_btn.click()
+
+        time.sleep(2)
+        exit_btn = self.find(locators.EXIT_LOCATOR)
+        exit_btn.click()
+
+        time.sleep(2)
