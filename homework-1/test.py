@@ -13,3 +13,8 @@ class TestSite(BaseCase):  # Класс тест-сьют
         sign = self.find(locators.SIGN1_BTN_LOCATOR)
         assert sign.text == variables.SIGN_BTN_TEXT
 
+    def test_change_contact(self, login):  # Тест функции изменения данных в профайле
+        fio, mail, phone = self.change_contacts()
+        assert fio == self.find(locators.FIO_LOCATOR).get_attribute('value') and \
+               phone == self.find(locators.PHONE_LOCATOR).get_attribute('value') and \
+               mail == self.find(locators.MAIL_LOCATOR).get_attribute('value')
