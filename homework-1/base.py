@@ -86,3 +86,6 @@ class BaseCase:  # Базовый кейс
 
         self.driver.refresh()
         return fio, mail, phone
+
+    def finds(self, locator):  # Метод поиска элементов по локатору
+        return self.driver.find_elements(*locator)

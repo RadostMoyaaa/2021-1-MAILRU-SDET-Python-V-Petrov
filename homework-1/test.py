@@ -1,6 +1,7 @@
 import variables
 import locators
 from base import BaseCase
+import pytest
 
 
 class TestSite(BaseCase):  # Класс тест-сьют
@@ -18,3 +19,13 @@ class TestSite(BaseCase):  # Класс тест-сьют
         assert fio == self.find(locators.FIO_LOCATOR).get_attribute('value') and \
                phone == self.find(locators.PHONE_LOCATOR).get_attribute('value') and \
                mail == self.find(locators.MAIL_LOCATOR).get_attribute('value')
+
+    @pytest.mark.parametrize(('xpath_btn', 'target_elem'), [(locators.BTN_PROFILE_LOCATOR, locators.PHONE_LOCATOR),
+                                                            (locators.BTN_SEGMENTS_LOCATOR,
+                                                             locators.TEXT_SEGMENTS_LOCATOR)])
+    def test_links(self, login, xpath_btn, target_elem):  # Тест проверки перехода по секциям
+        btn = self.find(xpath_btn)
+        btn.click()
+
+        elem = self.finds(target_elem)
+        assert len(elem) != 0

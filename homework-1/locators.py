@@ -38,3 +38,9 @@ MAIL_LOCATOR = (By.XPATH, './/div[@data-class-name ="AdditionalEmailRow"]//input
 
 # Кнопка СОХРАНИТЬ
 BTN_SAVE_LOCATOR = (By.XPATH, './/button[@class="button button_submit"]//div[contains(text(), "Сохранить")]')
+
+# Локаторы для проверки секций сайта
+# Кнопка секции Аудитории
+BTN_SEGMENTS_LOCATOR = (By.XPATH, './/a[contains(@class, "center-module-segments") and contains(text(), "Аудитории")]')
+# Текст на секции Аудитории
+TEXT_SEGMENTS_LOCATOR = (By.XPATH, './/li[contains(text(), "Добавьте источники данных") and contains(@class, "instruction-module-item")]')
