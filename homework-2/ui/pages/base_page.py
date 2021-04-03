@@ -14,7 +14,6 @@ class BasePage(object):
     url = 'https://target.my.com/'
 
     def __init__(self, driver):
-        print('Создается объект BasePage')
         self.driver = driver
 
     def go_link(self, link):  # Метод перехода на страницу по ссылке
@@ -42,18 +41,6 @@ class BasePage(object):
         form = self.find(locator)
         form.clear()
         form.send_keys(value)
-
-    def login(self):  # Фикстура логина
-        self.go_link(self.url)
-
-        sign1_btn = self.find(self.locators.SIGN1_BTN_LOCATOR)
-        sign1_btn.click()
-
-        self.send(self.locators.LOG_LOCATOR, self.LOGIN)
-        self.send(self.locators.PASS_LOCATOR, self.PASSWORD)
-
-        sign2_btn = self.find(self.locators.SIGN2_BTN_LOCATOR)
-        sign2_btn.click()
 
     def get_url(self):  # Метод для получения текущего url
         return self.driver.current_url

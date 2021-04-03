@@ -13,3 +13,19 @@ class BasePageLocators:
 
     # Поле password в auth форме
     PASS_LOCATOR = (By.NAME, 'password')
+
+
+class DashBoardPageLocators:
+    # UserName
+    USERNAME_LOCATOR = (By.XPATH, './/div[contains(@class, "right-module-userNameWrap")]')
+
+    # Локаторы для Logout
+    # Кнопка меню
+    MENU_LOCATOR = (By.XPATH, '//div[contains(@class, "right-module-rightButton")]')
+
+    # Кнопка выйти
+    EXIT_LOCATOR = (By.XPATH, '//a[contains(@class, "rightMenu-module-rightMenuLink") and contains(text(), "Выйти")]')
+
+    # Локаторы для изменения данных в профиле
+    # Кнопка профиль
+    BTN_PROFILE_LOCATOR = (By.XPATH, './/a[contains(@class, "center-module-profile") and contains(text(), "Профиль")]')
