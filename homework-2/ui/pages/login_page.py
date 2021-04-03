@@ -3,7 +3,7 @@ from ui.locators.page_locators import BasePageLocators
 from ui.pages.base_page import BasePage
 
 
-class LoginPage(BasePage):
+class LoginPage(BasePage):  # Страница Логина
     url = 'https://target.my.com/'
     locators = BasePageLocators()
 

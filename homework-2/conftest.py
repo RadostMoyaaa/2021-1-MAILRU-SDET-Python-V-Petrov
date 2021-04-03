@@ -20,12 +20,14 @@ def base_page(driver):  # Фикстура для создания объект�
 
 
 @pytest.fixture
-def login_page(driver):  # Фикстура для создания объекта BasePage
+def login_page(driver):  # Фикстура для создания объекта LoginPage
     print('Фикстура login_page')
     return LoginPage(driver=driver)
 
 
 @pytest.fixture
-def dashboard_page(driver, login_page):  # Фикстура для создания объекта BasePage
+def dashboard_page(driver, login_page):  # Фикстура автологирования
     print('Фикстура dashboard_page')
-    return login_page.login()
+    return login_page.login()  # -> DashBoardPage
+
+
