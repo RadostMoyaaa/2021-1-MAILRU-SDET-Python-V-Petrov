@@ -19,14 +19,18 @@ class BasePage(object):
     def go_link(self, link):  # Метод перехода на страницу по ссылке
         self.driver.get(link)
 
-    def find(self, locator, timeout=10):
-        self.wait(timeout).until(EC.presence_of_element_located(locator))
-        return self.wait(timeout).until(EC.visibility_of_element_located(locator))
+    def find(self, locator, timeout=20):
+        self.wait(timeout).until(EC.visibility_of_element_located(locator))
+        return self.wait(timeout).until(EC.presence_of_element_located(locator))
+
+    def finds(self, locator, timeout=20):
+        self.wait(timeout).until(EC.presence_of_all_elements_located(locator))
+        return self.wait(timeout).until(EC.visibility_of_all_elements_located(locator))
 
     def wait(self, timeout):
         return WebDriverWait(self.driver, timeout)
 
-    def click(self, locator, timeout=10):
+    def click(self, locator, timeout=20):
         for i in range(10):
             try:
                 element = self.find(locator, timeout)

@@ -6,10 +6,10 @@ from ui.tests.base import BaseCase
 
 
 @pytest.mark.skip
-class TestNegativeAuth1(BaseCase):  # Негативный тест на авторизацию 1
+class TestNegativeAuth(BaseCase):
     auto_login = False
 
-    def test(self):
+    def test_auth_1(self):   # Негативный тест на авторизацию 1
         try:
             self.login_page.LOGIN = 'moxxxywork@gmail.com'
             self.login_page.PASSWORD = ''  # Не введен пароль
@@ -20,12 +20,7 @@ class TestNegativeAuth1(BaseCase):  # Негативный тест на авт�
             return
         raise Exception(f'Bad Auth is passed LOGIN: {self.login_page.LOGIN}, PASSWORD: {self.login_page.PASSWORD}')
 
-
-@pytest.mark.skip
-class TestNegativeAuth2(BaseCase):  # Негативный тест на авторизацию 2
-    auto_login = False
-
-    def test(self):
+    def test_auth_2(self):  # Негативный тест на авторизацию 2
         try:
             self.login_page.LOGIN = 'moxxxywork@gmail.com'
             self.login_page.PASSWORD = self.login_page.PASSWORD.upper()  # Ввели пароль в верхнем регистре
@@ -38,21 +33,17 @@ class TestNegativeAuth2(BaseCase):  # Негативный тест на авт�
 
 
 class TestSegments(BaseCase):
-    @pytest.mark.skip
-    def test_add_segment(self):  # Тест на добавления сегмента
+    @pytest.mark.parametrize('c', list(range(3)))
+    def test_add_segment(self,c):  # Тест на добавления сегмента
         segments_page = self.dashboard_page.go_to_segments()
-        segments_page.delete_segments()
-        segment_id = segments_page.create_segment()
+        segment_id = segments_page.create_segment('Добавлен')
         segments_page.driver.refresh()
-        assert segment_id == segments_page.find(segments_page.locators.TEXT_SEGMENT_ID).text
+        assert segment_id in segments_page.get_segments_id_list()
 
     @pytest.mark.parametrize('c', list(range(3)))
-    def test_delete_segment(self, c):  # Тест на добавления сегмента
+    def test_delete_segment(self,c):  # Тест на удаление сегмента
         segments_page = self.dashboard_page.go_to_segments()
-        segments_page.delete_segments()
-        segment_id = segments_page.create_segment()
-        count = segments_page.delete_segment(segment_id)
-        assert count == '0'
-
-
+        segment_id = segments_page.create_segment('Удален')
+        segments_page.delete_segment(segment_id)
+        assert segment_id not in segments_page.get_segments_id_list()
 

@@ -57,3 +57,5 @@ class SegmentsPageLocators(DashBoardPageLocators):
     BTN_DELETE_ACTION = (By.XPATH, './/li[@title="Удалить"]')
 
     BTN_CHECKBOX_ID = (By.XPATH, './/div[contains(@data-test, "id-{}")]//input')
+
+    README_SEGMENT = (By.XPATH, '/html/body/div[1]/div[2]/div[1]/div/div[2]/div[2]/div[2]/div/div[1]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/input')
