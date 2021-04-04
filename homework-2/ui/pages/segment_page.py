@@ -5,12 +5,13 @@ from ui.pages.base_page import BasePage
 
 from selenium.common.exceptions import TimeoutException
 
+
 class SegmentsPage(BasePage):  # Страница аудитории
     url = 'https://target.my.com/segments/segments_list'
     locators = SegmentsPageLocators()
 
     def create_segment(self):  # Метод добавления сегмента
-        self.delete_segments()
+
         self.click(self.locators.BTN_CREATE_SEGMENT)   # Клик создать сегмент
 
         self.click(self.locators.BTN_SELECT_SEGMENT)  # Выбрать категорию сегмента
@@ -28,13 +29,17 @@ class SegmentsPage(BasePage):  # Страница аудитории
         return id  # Возвращаем id
 
     def delete_segments(self):  # Метод всех удаления сегментов
-        try:
-            self.find(self.locators.TEXT_SEGMENT_ID, timeout=3)
+        count = int(self.find(self.locators.BTN_LIST_SEGMENTS).text)
+        if count != 0:
             self.click(self.locators.BTN_CHECKBOX_ID_ALL)
             self.click(self.locators.BTN_ACTIONS)
             self.click(self.locators.BTN_DELETE_ACTION)
-        except TimeoutException:
+        else:
             return
 
-    def delete_segment(self):
-        pass
+    def delete_segment(self, segment_id):
+        self.click((self.locators.BTN_CHECKBOX_ID[0], self.locators.BTN_CHECKBOX_ID[1].format(segment_id)))
+        self.click(self.locators.BTN_ACTIONS)
+        self.click(self.locators.BTN_DELETE_ACTION)
+        self.driver.refresh()
+        return self.find(self.locators.BTN_LIST_SEGMENTS).text

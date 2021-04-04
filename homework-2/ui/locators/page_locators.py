@@ -55,3 +55,5 @@ class SegmentsPageLocators(DashBoardPageLocators):
     BTN_ACTIONS = (By.XPATH, '//span[text() = "Действия"]')
 
     BTN_DELETE_ACTION = (By.XPATH, './/li[@title="Удалить"]')
+
+    BTN_CHECKBOX_ID = (By.XPATH, './/div[contains(@data-test, "id-{}")]//input')

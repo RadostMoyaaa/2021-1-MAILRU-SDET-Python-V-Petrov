@@ -20,7 +20,8 @@ class BasePage(object):
         self.driver.get(link)
 
     def find(self, locator, timeout=10):
-        return self.wait(timeout).until(EC.presence_of_element_located(locator))
+        self.wait(timeout).until(EC.presence_of_element_located(locator))
+        return self.wait(timeout).until(EC.visibility_of_element_located(locator))
 
     def wait(self, timeout):
         return WebDriverWait(self.driver, timeout)
