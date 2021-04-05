@@ -33,17 +33,17 @@ class TestNegativeAuth(BaseCase):
 
 
 class TestSegments(BaseCase):
-    @pytest.mark.parametrize('c', list(range(3)))
-    def test_add_segment(self,c):  # Тест на добавления сегмента
+
+    def test_add_segment(self):  # Тест на добавления сегмента
         segments_page = self.dashboard_page.go_to_segments()
-        segment_id = segments_page.create_segment('Добавлен')
+        segment_id = segments_page.create_segment()
         segments_page.driver.refresh()
         assert segment_id in segments_page.get_segments_id_list()
 
-    @pytest.mark.parametrize('c', list(range(3)))
-    def test_delete_segment(self,c):  # Тест на удаление сегмента
+    def test_delete_segment(self):  # Тест на удаление сегмента
         segments_page = self.dashboard_page.go_to_segments()
-        segment_id = segments_page.create_segment('Удален')
+        segment_id = segments_page.create_segment()
+        segments_page.driver.refresh()
         segments_page.delete_segment(segment_id)
         assert segment_id not in segments_page.get_segments_id_list()
 

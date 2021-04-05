@@ -32,6 +32,9 @@ class DashBoardPageLocators:
     # Кнопка профиль
     BTN_PROFILE_LOCATOR = (By.XPATH, './/a[contains(@class, "center-module-profile") and contains(text(), "Профиль")]')
 
+    # Кнопка компании
+    BTN_COMPANY_LOCATOR = (By.XPATH, './/a[text() = "Кампании"]')
+
 
 class SegmentsPageLocators(DashBoardPageLocators):
     # Кнопка "Создайте аудиторный сегмент"
@@ -58,4 +61,10 @@ class SegmentsPageLocators(DashBoardPageLocators):
 
     BTN_CHECKBOX_ID = (By.XPATH, './/div[contains(@data-test, "id-{}")]//input')
 
-    README_SEGMENT = (By.XPATH, '/html/body/div[1]/div[2]/div[1]/div/div[2]/div[2]/div[2]/div/div[1]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/input')
+    INPUT_SEGMENT_NAME = (By.XPATH, '/html/body/div[1]/div[2]/div[1]/div/div[2]/div[2]/div[2]/div/div[1]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/input')
+
+    BTN_NAME_SEGMENT = (By.XPATH, ".//a[text() ='{}']")
+
+
+class CompanyPageLocators(DashBoardPageLocators):
+    pass

@@ -1,3 +1,6 @@
+import random
+import string
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -20,8 +23,8 @@ class BasePage(object):
         self.driver.get(link)
 
     def find(self, locator, timeout=20):
-        self.wait(timeout).until(EC.visibility_of_element_located(locator))
-        return self.wait(timeout).until(EC.presence_of_element_located(locator))
+        self.wait(timeout).until(EC.presence_of_element_located(locator))
+        return self.wait(timeout).until(EC.visibility_of_element_located(locator))
 
     def finds(self, locator, timeout=20):
         self.wait(timeout).until(EC.presence_of_all_elements_located(locator))
@@ -49,3 +52,9 @@ class BasePage(object):
 
     def get_url(self):  # Метод для получения текущего url
         return self.driver.current_url
+
+    def random_text(self, count):  # Метод генерации текста
+        result = ''
+        for x in range(count):
+            result += random.choice(string.ascii_letters)
+        return result
