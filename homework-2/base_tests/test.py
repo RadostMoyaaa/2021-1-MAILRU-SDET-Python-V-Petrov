@@ -74,3 +74,21 @@ class TestSegments(BaseCase):
 
         with allure.step(f'Checking created and deleted "{segment_id}" in {segments_id_list}'):
             assert segment_id not in segments_id_list
+
+
+class TestCompany(BaseCase):
+
+    @allure.epic('Awesome PyTest framework')  # Тест на создание рекламной компании
+    @allure.feature('UI tests')
+    @allure.story('Company create test')
+    @pytest.mark.ui
+    def test_create_company(self, repo_root):
+        self.logger.info(f'Going to company, trying to create company')
+
+        with allure.step(f'Creating adv company...'):
+            file = os.path.join(repo_root, 'ui', 'testImg.jpg')
+            company_page = self.dashboard_page.go_to_company()
+            name, company_names = company_page.create_company('Охват', file, "https://bethesda.net/ru/game/doom")
+
+        with allure.step(f'Checking created "{name}" in {company_names}'):
+            assert name in company_names
