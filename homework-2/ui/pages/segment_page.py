@@ -7,7 +7,7 @@ class SegmentsPage(BasePage):  # Страница аудитории
     locators = SegmentsPageLocators()
 
     def delete_segments(self):  # Метод всех удаления сегментов
-        count = int(self.find(self.locators.BTN_LIST_SEGMENTS).text)
+        count = int(self.find_visible(self.locators.BTN_LIST_SEGMENTS).text)
         if count != 0:
             self.click(self.locators.BTN_CHECKBOX_ID_ALL)
             self.click(self.locators.BTN_ACTIONS)
@@ -20,10 +20,10 @@ class SegmentsPage(BasePage):  # Страница аудитории
         self.click(self.locators.BTN_ACTIONS)
         self.click(self.locators.BTN_DELETE_ACTION)
         self.driver.refresh()
-        return self.find(self.locators.BTN_LIST_SEGMENTS).text
+        return self.find_visible(self.locators.BTN_LIST_SEGMENTS).text
 
     def create_segment(self):  # Метод добавления сегмента - новый
-        count = self.find(self.locators.BTN_LIST_SEGMENTS).text  # Получаем количество сегментов
+        count = self.find_visible(self.locators.BTN_LIST_SEGMENTS).text  # Получаем количество сегментов
         if int(count) != 0:  # Если количество сегментов больше нуля
             self.click((self.locators.BTN_ADD_SEGMENT[0],
                         self.locators.BTN_ADD_SEGMENT[1].format('Создать сегмент')))  # Клик создать
@@ -39,12 +39,13 @@ class SegmentsPage(BasePage):  # Страница аудитории
 
         name = self.random_text(5)  # Рандом текста
 
-        self.send(self.locators.INPUT_SEGMENT_NAME, name)  # Отправляем имя
+        self.send_data(self.locators.INPUT_SEGMENT_NAME, name)  # Отправляем имя
 
         self.click((self.locators.BTN_ADD_SEGMENT[0],
                     self.locators.BTN_ADD_SEGMENT[1].format('Создать сегмент')))  # Клик создать
 
-        segment_name_link = self.find((self.locators.BTN_NAME_SEGMENT[0], self.locators.BTN_NAME_SEGMENT[1].format(name)))
+        segment_name_link = self.find_visible(
+            (self.locators.BTN_NAME_SEGMENT[0], self.locators.BTN_NAME_SEGMENT[1].format(name)))
 
         href = segment_name_link.get_attribute('href')  # Получаем атрибут href у ссылки нашего сегмента
 

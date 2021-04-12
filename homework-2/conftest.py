@@ -28,7 +28,7 @@ def driver():  # Фикстура драйвера
     browser.maximize_window()
 
     yield browser
-    browser.close()
+    browser.quit()
 
 
 @pytest.fixture(scope='session')
