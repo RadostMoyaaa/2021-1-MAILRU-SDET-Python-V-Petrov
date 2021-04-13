@@ -17,8 +17,8 @@ class CompanyPage(BasePage):   # Страницы Рекламные компа�
             result = False
         return result
 
-    @allure.step('Creating company {target}, {file}, {url}')
-    def create_company(self, target, file, url):  # Метод создания компании
+    @allure.step('Creating company {target}, {file}, {url}, {name}')
+    def create_company(self, target, file, url, name):  # Метод создания компании
         if self.is_present(self.locators.TITLE_INSTR_COMPANY):
             self.click(self.locators.BTN_CREATE1_COMPANY)
         else:
@@ -27,7 +27,6 @@ class CompanyPage(BasePage):   # Страницы Рекламные компа�
         self.click((self.locators.BTN_TARGET_COMPANY[0],
                     self.locators.BTN_TARGET_COMPANY[1].format(target)))
         self.send_data(self.locators.INPUT_URL_COMPANY, url)
-        name = self.random_text(5)
         self.send_data(self.locators.INPUT_NAME_COMPANY, name)
         self.click(self.locators.BTN_ADV_TYPE_COMPANY)
         self.find_located(self.locators.INP_UPD_IMG_COMPANY).send_keys(file)

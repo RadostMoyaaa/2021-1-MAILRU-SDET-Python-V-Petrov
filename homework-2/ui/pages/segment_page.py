@@ -22,36 +22,34 @@ class SegmentsPage(BasePage):  # Страница аудитории
         self.driver.refresh()
         return self.find_visible(self.locators.BTN_LIST_SEGMENTS).text
 
-    def create_segment(self):  # Метод добавления сегмента - новый
-        count = self.find_visible(self.locators.BTN_LIST_SEGMENTS).text  # Получаем количество сегментов
-        if int(count) != 0:  # Если количество сегментов больше нуля
+    def create_segment(self, name):  # Метод добавления сегмента
+        count = self.find_visible(self.locators.BTN_LIST_SEGMENTS).text
+        if int(count) != 0:
             self.click((self.locators.BTN_ADD_SEGMENT[0],
-                        self.locators.BTN_ADD_SEGMENT[1].format('Создать сегмент')))  # Клик создать
+                        self.locators.BTN_ADD_SEGMENT[1].format('Создать сегмент')))
         else:
-            self.click(self.locators.BTN_CREATE_SEGMENT)  # Клик создать сегмент
+            self.click(self.locators.BTN_CREATE_SEGMENT)
 
-        self.click(self.locators.BTN_SELECT_SEGMENT)  # Выбрать категорию сегмента
+        self.click(self.locators.BTN_SELECT_SEGMENT)
 
-        self.click(self.locators.BTN_CHECKBOX_PLAYERS)  # Клик чекбокс
-
-        self.click((self.locators.BTN_ADD_SEGMENT[0],
-                    self.locators.BTN_ADD_SEGMENT[1].format('Добавить сегмент')))  # Клик добавить
-
-        name = self.random_text(5)  # Рандом текста
-
-        self.send_data(self.locators.INPUT_SEGMENT_NAME, name)  # Отправляем имя
+        self.click(self.locators.BTN_CHECKBOX_PLAYERS)
 
         self.click((self.locators.BTN_ADD_SEGMENT[0],
-                    self.locators.BTN_ADD_SEGMENT[1].format('Создать сегмент')))  # Клик создать
+                    self.locators.BTN_ADD_SEGMENT[1].format('Добавить сегмент')))
+
+        self.send_data(self.locators.INPUT_SEGMENT_NAME, name)
+
+        self.click((self.locators.BTN_ADD_SEGMENT[0],
+                    self.locators.BTN_ADD_SEGMENT[1].format('Создать сегмент')))
 
         segment_name_link = self.find_visible(
             (self.locators.BTN_NAME_SEGMENT[0], self.locators.BTN_NAME_SEGMENT[1].format(name)))
 
-        href = segment_name_link.get_attribute('href')  # Получаем атрибут href у ссылки нашего сегмента
+        href = segment_name_link.get_attribute('href')
 
-        segment_id = ''.join(i for i in href if i.isdigit())  # Сохраняем id
+        segment_id = ''.join(i for i in href if i.isdigit())
 
-        return segment_id  # Возвращаем id
+        return segment_id
 
     def get_segments_id_list(self):  # Метод получения всех id сегментов
         segment_list = self.finds(self.locators.TEXT_SEGMENT_ID)
