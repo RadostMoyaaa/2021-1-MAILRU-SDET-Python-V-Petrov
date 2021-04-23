@@ -13,24 +13,24 @@ class BasePage(object):  # Базовая страница
 
     def is_present(self, locator):
         try:
-            self.find_visible(locator, timeout=5)
+            self.find_visible(locator, timeout=20)
             result = True
         except TimeoutException:
             result = False
         return result
 
-    def find_visible(self, locator, timeout=20):
+    def find_visible(self, locator, timeout=30):
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))
 
-    def finds(self, locator, timeout=20):
+    def finds(self, locator, timeout=30):
         self.wait(timeout).until(EC.presence_of_all_elements_located(locator))
         return self.wait(timeout).until(EC.visibility_of_all_elements_located(locator))
 
     def wait(self, timeout):
         return WebDriverWait(self.driver, timeout)
 
-    def click(self, locator, timeout=20):
-        for i in range(10):
+    def click(self, locator, timeout=30):
+        for i in range(20):
             try:
                 element = self.find_visible(locator, timeout)
                 element = self.wait(timeout).until(

@@ -34,3 +34,6 @@ class MainPage(BasePage):  # Базовая страница
     def check_news_track_name(self, check):
         track = self.find_visible(self.locators.TRACK_NEWS).text
         assert track == check, f'Error: check {check}, track {track}'
+
+    def stop_news(self):
+        self.click(self.locators.BTN_STOP_NEWS)
