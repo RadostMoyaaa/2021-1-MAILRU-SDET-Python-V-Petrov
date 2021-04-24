@@ -3,3 +3,6 @@ pytest==6.2.3
 pytest-xdist==2.2.1
 selenium==3.141.0
 webdriver-manager==3.3.0
+
+requests~=2.25.1
+Faker~=8.1.0
