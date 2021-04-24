@@ -1,3 +1,5 @@
+import os
+
 import pytest
 import config
 import faker
@@ -9,6 +11,8 @@ class ApiBase:  # Базовый класс тестов API
     authorize = True
     LOGIN = config.LOGIN
     PASSWORD = config.PASSWORD
+    image_data = {'directory': None,
+                  'name': None}
 
     @pytest.fixture(scope='function', autouse=True)
     def setup(self, api_client):
@@ -56,12 +60,23 @@ class ApiBase:  # Базовый класс тестов API
         json_response = response.json()
         return json_response['id']
 
-    def check_campaign_deleted_status(self, campaign_id):
+    def check_campaign_status(self, campaign_id, status):
         response = self.api_client.get_campaign_status(campaign_id=campaign_id)
         json_response = response.json()
-        assert json_response.get('issues')[0]['code'] == 'ARCHIVED'
+        assert json_response.get('issues')[0]['code'] == status
 
     def delete_campaign(self, campaign_id):
         response = self.api_client.delete_campaign(campaign_id=campaign_id)
         assert response.status_code == 204
-        self.check_campaign_deleted_status(campaign_id=campaign_id)
+        self.check_campaign_status(campaign_id=campaign_id, status='ARCHIVED')
+
+    @pytest.fixture()
+    def campaign(self, repo_root):
+        url_id = self.get_url_id(fake.url())
+        file = os.path.join(repo_root, 'test_api', 'testImg2.jpg')
+        image_id = self.upload_image(file)
+        campaign_id = self.create_campaign(name=self.random_text(5), image_id=image_id, url_id=url_id)
+
+        yield campaign_id
+
+        self.delete_campaign(campaign_id=campaign_id)

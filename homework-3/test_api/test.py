@@ -27,9 +27,6 @@ class TestSegments(ApiBase):  # Тесты на создание и удален
 
 class TestCampaigns(ApiBase):  # Тест на создание компании
     @pytest.mark.api
-    def test_campaign(self, repo_root):
-        url_id = self.get_url_id(fake.url())
-        file = os.path.join(repo_root, 'test_api', 'testImg2.jpg')
-        image_id = self.upload_image(file)
-        campaign_id = self.create_campaign(name=self.random_text(5), image_id=image_id, url_id=url_id)
-        self.delete_campaign(campaign_id=campaign_id)
+    def test_campaign(self, campaign):
+        campaign_id = campaign
+        self.check_campaign_status(campaign_id=campaign_id, status="NO_ALLOWED_BANNERS")

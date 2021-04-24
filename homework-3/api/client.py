@@ -11,7 +11,7 @@ class ApiClient:
         self.session = requests.Session()
 
     def post_auth(self, login, password):
-        location = "https://auth-ac.my.com:443/auth"
+        location = "https://auth-ac.my.com/auth"
         headers = {
             "Referer": "https://account.my.com/",
         }
@@ -76,7 +76,7 @@ class ApiClient:
     def get_campaign_status(self, campaign_id):
         location = f"/api/v2/campaigns/{campaign_id}.json?fields=issues"
         url = urljoin(self.base_url, location)
-        response = self.session.get(url=url)
+        response = self.session.get(url=url)  # 39388159
         return response
 
     def post_create_campaign(self, name, image_id, url_id, objective='reach', package_id=960):
