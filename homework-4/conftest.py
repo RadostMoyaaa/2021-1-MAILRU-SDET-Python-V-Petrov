@@ -14,7 +14,8 @@ def capability_select(root, config):
                   "appActivity": "ru.mail.search.electroscope.ui.activity.AssistantActivity",
                   "app": os.path.join(root, 'stuff', config['apk']),
                   "orientation": "PORTRAIT",
-                  "autoGrantPermissions": True
+                  "autoGrantPermissions": True,
+                  "disableWindowAnimation": True,
                   }
     return capability
 

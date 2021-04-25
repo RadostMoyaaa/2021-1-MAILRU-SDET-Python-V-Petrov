@@ -7,7 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 
 
-class BasePage(object):  # Базовая страница
+class BasePage(object):
     def __init__(self, driver):
         self.driver = driver
 

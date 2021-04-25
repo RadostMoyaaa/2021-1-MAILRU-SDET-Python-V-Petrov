@@ -3,7 +3,7 @@ from locators.page_locators import MainPageLocators
 from pages.settings_page import SettingsPage
 
 
-class MainPage(BasePage):  # Базовая страница
+class MainPage(BasePage):
     locators = MainPageLocators()
 
     def send_question(self, question):
@@ -24,7 +24,7 @@ class MainPage(BasePage):  # Базовая страница
         assert check == target_text, f'Error: check: {check}, target text: {target_text} '
 
     def check_dialog_answer(self, check):
-        answer = self.finds(self.locators.DIALOG_ANSWER)[1].text
+        answer = self.finds(self.locators.DIALOG_ANSWER)[-1].text
         assert answer == check, f'Error: check: {check}, answer: {answer} '
 
     def go_to_settings(self):
