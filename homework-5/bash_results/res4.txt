@@ -1,0 +1,6 @@
+Топ 5 самых больших по размеру запросов, которые завершились клиентской (4ХХ) ошибкой
+//index.php/joomla-pages-ii/user-registration.html?task=registration.register                                                                                                                                          404  1397  95.82.195.206
+/index.php?option=com_phocagallery&view=category&id=4025&Itemid=53                                                                                                                                                     404  1417  189.217.45.73
+/index.php?option=com_phocagallery&view=category&id=7806&Itemid=53                                                                                                                                                     404  1417  189.217.45.73
+/index.php?option=com_phocagallery&view=category&id=%28SELECT%20%28CASE%20WHEN%20%281753%3D1753%29%20THEN%201753%20ELSE%201753%2A%28SELECT%201753%20FROM%20INFORMATION_SCHEMA.CHARACTER_SETS%29%20END%29%29&Itemid=53  404  1417  189.217.45.73
+/index.php?option=com_phocagallery&view=category&id=%28SELECT%20%28CASE%20WHEN%20%289168%3D4696%29%20THEN%209168%20ELSE%209168%2A%28SELECT%209168%20FROM%20INFORMATION_SCHEMA.CHARACTER_SETS%29%20END%29%29&Itemid=53  404  1417  189.217.45.73

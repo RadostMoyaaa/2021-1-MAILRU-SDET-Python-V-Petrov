@@ -1,0 +1,11 @@
+Топ 10 запросов по url
+/administrator/index.php                           103932
+/apache-log/access.log                             26336
+/                                                  6940
+/templates/_system/css/general.css                 4980
+/robots.txt                                        3199
+http://almhuette-raith.at/administrator/index.php  2356
+/favicon.ico                                       2201
+/wp-login.php                                      1644
+/administrator/                                    1563
+/templates/jp_hotel/css/template.css               1287
