@@ -18,22 +18,19 @@ class MainPage(BasePage):
         new_target_btn_locator = self.change_locator(self.locators.ITEM_WITH_TEXT, target_btn)
         self.click(new_target_btn_locator)
 
-    def check_article(self, check):
+    def get_article(self, check):
         new_article_locator = self.change_locator(self.locators.ITEM_WITH_TEXT, check)
         target_text = self.find_visible(new_article_locator).text
-        assert check == target_text, f'Error: check: {check}, target text: {target_text} '
+        return target_text
 
-    def check_dialog_answer(self, check):
+    def get_dialog_answer(self):
         answer = self.finds(self.locators.DIALOG_ANSWER)[-1].text
-        assert answer == check, f'Error: check: {check}, answer: {answer} '
+        return answer
 
     def go_to_settings(self):
         self.click(self.locators.BTN_SETTINGS)
         return SettingsPage(driver=self.driver)
 
-    def check_news_track_name(self, check):
+    def get_news_track_name(self):
         track = self.find_visible(self.locators.TRACK_NEWS).text
-        assert track == check, f'Error: check {check}, track {track}'
-
-    def stop_news(self):
-        self.click(self.locators.BTN_STOP_NEWS)
+        return track

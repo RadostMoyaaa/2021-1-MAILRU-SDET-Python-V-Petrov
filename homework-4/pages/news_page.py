@@ -7,7 +7,7 @@ class NewsPage(BasePage):
 
     def select_source(self, source):
         self.click(self.change_locator(self.locators.BTN_SELECT_SOURCE, source))
-        assert self.is_present(self.change_locator(self.locators.SELECTED_LOCATOR, source))
+        return self.is_present(self.change_locator(self.locators.SELECTED_LOCATOR, source))
 
     def return_to_main_page(self, taps):
         self.tap_back_btn(taps)
