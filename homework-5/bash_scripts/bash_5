@@ -1,0 +1,1 @@
+ echo 'Топ 5 пользователей по количеству запросов, которые завершились серверной (5ХХ) ошибкой' > bash_results/res5.txt | cat access.log | awk '$9 ~ /^5[0-9][0-9]/ {print $1}'| uniq -c | sort -nr | head -n5 | awk '{print $2, $1}' | column -t >> bash_results/res5.txt

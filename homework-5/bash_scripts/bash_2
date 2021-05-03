@@ -1,0 +1,1 @@
+echo 'Общее количество запросов по типу' > bash_results/res2.txt | cat access.log | awk '{print $6}' | sort | uniq -c | sort | awk '{print $2, $1}' | column -t >> bash_results/res2.txt
