@@ -1,0 +1,63 @@
+{
+    "Count": {
+        "Count of all requests:": 225133
+    },
+    "TypedCount": {
+        "POST": 102503,
+        "PUT": 6,
+        "HEAD": 528,
+        "g369g=%40eval%01%28base64_decode%28%24_POST%5Bz0%5D%29%29%3B&z0=QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwiMCIpO0BzZXRfdGltZV9saW1pdCgwKTtAc2V0X21hZ2ljX3F1b3Rlc19ydW50aW1lKDApO2VjaG8oIi0%2bfCIpOztlY2hvKCJlNTBiNWYyYjRmNjc1NGFmMDljYzg0NWI4YjU4ZTA3NiIpOztlY2hvKCJ8PC0iKTs7ZGllKCk7GET": 1,
+        "GET": 122095
+    },
+    "MostFrequent": {
+        "/administrator/index.php": 103932,
+        "/apache-log/access.log": 26336,
+        "/": 6940,
+        "/templates/_system/css/general.css": 4980,
+        "/robots.txt": 3199,
+        "http://almhuette-raith.at/administrator/index.php": 2356,
+        "/favicon.ico": 2201,
+        "/wp-login.php": 1644,
+        "/administrator/": 1563,
+        "/templates/jp_hotel/css/template.css": 1287
+    },
+    "Biggest4xx": {
+        "0": {
+            "url": "/index.php?option=com_phocagallery&view=category&id=%28SELECT%20%28CASE%20WHEN%20%281753%3D1753%29%20THEN%201753%20ELSE%201753%2A%28SELECT%201753%20FROM%20INFORMATION_SCHEMA.CHARACTER_SETS%29%20END%29%29&Itemid=53",
+            "code": "404",
+            "size": "1417",
+            "ip": "189.217.45.73"
+        },
+        "1": {
+            "url": "/index.php?option=com_phocagallery&view=category&id=%28SELECT%20%28CASE%20WHEN%20%289168%3D4696%29%20THEN%209168%20ELSE%209168%2A%28SELECT%209168%20FROM%20INFORMATION_SCHEMA.CHARACTER_SETS%29%20END%29%29&Itemid=53",
+            "code": "404",
+            "size": "1417",
+            "ip": "189.217.45.73"
+        },
+        "2": {
+            "url": "/index.php?option=com_phocagallery&view=category&id=7806&Itemid=53",
+            "code": "404",
+            "size": "1417",
+            "ip": "189.217.45.73"
+        },
+        "3": {
+            "url": "/index.php?option=com_phocagallery&view=category&id=4025&Itemid=53",
+            "code": "404",
+            "size": "1417",
+            "ip": "189.217.45.73"
+        },
+        "4": {
+            "url": "/index.php?option=com_easyblog&view=dashboard&layout=write",
+            "code": "404",
+            "size": "1397",
+            "ip": "138.197.223.238"
+        }
+    },
+    "UsersFrequent5xx": {
+        "189.217.45.73": 225,
+        "82.193.127.15": 4,
+        "91.210.145.36": 3,
+        "194.87.237.6": 2,
+        "195.133.48.198": 2
+    }
+}
