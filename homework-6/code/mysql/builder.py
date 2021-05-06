@@ -1,4 +1,4 @@
-from mysql.models import CountRequests, CountTyped, BiggestRequestsError
+from mysql.models import CountRequests, CountTyped, BiggestRequestsError, UserFrequentRequests, UrlFrequentRequests
 
 
 class MySqlBuilder:
@@ -24,3 +24,14 @@ class MySqlBuilder:
         self.client.session.commit()
         return biggest_model
 
+    def create_user_frequent_request(self, ip, count):
+        frequent_model = UserFrequentRequests(ip=ip, count=count)
+        self.client.session.add(frequent_model)
+        self.client.session.commit()
+        return frequent_model
+
+    def create_url_frequent_request(self, url, count):
+        frequent_url_model = UrlFrequentRequests(url=url, count=count)
+        self.client.session.add(frequent_url_model)
+        self.client.session.commit()
+        return frequent_url_model

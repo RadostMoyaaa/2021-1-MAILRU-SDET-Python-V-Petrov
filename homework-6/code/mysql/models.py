@@ -49,3 +49,34 @@ class BiggestRequestsError(Base):  # Модель самые большие за
     code = Column(String(4), nullable=False)
     size = Column(Integer, nullable=False)
     ip = Column(String(15), nullable=False)
+
+
+class UserFrequentRequests(Base):  # Модель самые частые запросы пользователей с ошибкой
+    __tablename__ = 'user_frequent'
+
+    def __repr__(self):
+        return f"<UserFrequentRequests(" \
+               f"id='{self.id}'," \
+               f"ip='{self.ip}'," \
+               f"count='{self.count}', " \
+               f")>"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    ip = Column(String(15), nullable=False)
+    count = Column(Integer, nullable=False)
+
+
+class UrlFrequentRequests(Base):  # Модель самый популярные адреса
+    __tablename__ = 'url_frequent'
+
+    def __repr__(self):
+        return f"<UrlFrequentRequests(" \
+               f"id='{self.id}'," \
+               f"url='{self.url}'," \
+               f"count='{self.count}', " \
+               f")>"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    url = Column(String(500), nullable=False)
+    count = Column(Integer, nullable=False)
+

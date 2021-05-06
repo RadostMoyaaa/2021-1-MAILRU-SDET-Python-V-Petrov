@@ -47,3 +47,11 @@ class MySqlClient:
     def create_table_biggest_requests(self):
         if not inspect(self.engine).has_table('biggest_error'):
             Base.metadata.tables['biggest_error'].create(self.engine)
+
+    def create_table_user_frequent_requests(self):
+        if not inspect(self.engine).has_table('user_frequent'):
+            Base.metadata.tables['user_frequent'].create(self.engine)
+
+    def create_table_url_frequent_requests(self):
+        if not inspect(self.engine).has_table('url_frequent'):
+            Base.metadata.tables['url_frequent'].create(self.engine)
