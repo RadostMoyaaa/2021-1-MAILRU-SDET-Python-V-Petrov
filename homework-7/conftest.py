@@ -7,8 +7,8 @@ import time
 import settings
 import requests
 from requests.exceptions import ConnectionError
-from mock import flask_mock
-from http_api_client.client import HttpMockClient
+from all_code.mock import flask_mock
+from all_code.http_api_client.client import HttpMockClient
 
 
 def wait(host=None, port=None, name=None):

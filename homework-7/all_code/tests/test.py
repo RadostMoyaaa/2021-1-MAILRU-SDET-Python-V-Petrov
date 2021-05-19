@@ -1,4 +1,4 @@
-from mock.flask_mock import SURNAME_DATA
+from all_code.mock.flask_mock import SURNAME_DATA
 from base_test import BaseTest
 
 

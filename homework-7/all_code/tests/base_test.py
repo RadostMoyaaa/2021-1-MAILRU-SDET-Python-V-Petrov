@@ -1,6 +1,6 @@
 import pytest
 
-from utils.builder import Builder
+from all_code.utils.builder import Builder
 
 
 class BaseTest:
