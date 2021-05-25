@@ -20,9 +20,11 @@ services:
     volumes:
       - ./mock:/tmp/source_code
     entrypoint: /bin/bash /tmp/source_code/start_tests.sh
-    depends_on:
-      mysql_container:
-        condition: service_healthy
+    healthcheck:
+      test: curl --fail -s http://0.0.0.0:5000/ || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
 
   app:  # Application
     image: "myapp:latest"
@@ -33,6 +35,8 @@ services:
     entrypoint: /app/myapp --config=/tmp/app_config
     depends_on:
       mysql_container:
+        condition: service_healthy
+      mock_container:
         condition: service_healthy
 
 #  tests: # Tests ORM SQL

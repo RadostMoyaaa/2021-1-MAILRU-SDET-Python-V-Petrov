@@ -12,7 +12,7 @@ user_id_seq = 1
 
 @app.route('/', methods=['GET'])
 def get_root():
-    return jsonify('yxadi'), 400
+    return 'Okay'
 
 
 @app.route('/vk_id/<username>', methods=['GET'])
