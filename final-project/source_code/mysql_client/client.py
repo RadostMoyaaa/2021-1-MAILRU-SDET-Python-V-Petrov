@@ -1,7 +1,9 @@
 import sqlalchemy
 from sqlalchemy import inspect
 from sqlalchemy.orm import sessionmaker
-from mysql_client.models import Base
+from sqlalchemy.orm.exc import ObjectDeletedError
+
+from mysql_client.models import Base, TestUsers
 
 
 class MySqlClient:
@@ -36,13 +38,37 @@ class MySqlClient:
         self.execute_query(f'CREATE database {self.db_name}', fetch=False)
         self.connection.close()
 
-    def create_new_user(self):
-        self.connect(db_created=True)  # Bad decision
-        self.execute_query(f"CREATE USER 'test_qa' IDENTIFIED BY 'qa_test'", fetch=False)
-        self.execute_query(f"GRANT ALL PRIVILEGES ON * . * to 'test_qa'", fetch=False)
-        self.execute_query(f"FLUSH PRIVILEGES", fetch=False)
-        self.connection.close()
-
     def create_table_test_users(self):
         if not inspect(self.engine).has_table('test_users'):
             Base.metadata.tables['test_users'].create(self.engine)
+
+    def delete_user(self, **kwargs):
+        self.session.query(TestUsers).filter_by(**kwargs).delete()
+        self.session.commit()
+
+    def clear_all_users(self, mysql_users=None, api_users=None):  # Deleting all users
+        if mysql_users is not None:
+            for user in mysql_users:
+                try:
+                    self.delete_user(username=user.username, password=user.password, email=user.email)
+                except ObjectDeletedError:
+                    pass
+        if api_users is not None:
+            for user in api_users:
+                try:
+                    self.delete_user(username=user.username, password=user.password, email=user.email)
+                except ObjectDeletedError:
+                    pass
+
+    # def clear_all_users(self):
+    #     self.execute_query(f'TRUNCATE TABLE test_users', fetch=False)
+
+    def get_user(self, **kwargs):
+        self.session.commit()
+        user = self.session.query(TestUsers).filter_by(**kwargs).first()
+        return user
+
+    def check_exist_user(self, **kwargs):
+        self.session.commit()
+        exist = self.session.query(self.session.query(TestUsers).filter_by(**kwargs).exists()).scalar()
+        return exist

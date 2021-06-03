@@ -1,0 +1,15 @@
+{
+    "chrome": {
+        "applicationContainers": ["app:my_app"],
+        "additionalNetworks": ["my_net"],
+        "default": "89.0",
+        "versions": {
+            "89.0": {
+                "image": "selenoid/chrome:89.0",
+
+                "port": "4444",
+                "env" : ["LANG=ru_RU.UTF-8", "LANGUAGE=ru:en", "LC_ALL=ru_RU.UTF-8"]
+            }
+        }
+    }
+}

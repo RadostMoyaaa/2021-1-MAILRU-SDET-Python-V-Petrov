@@ -1,3 +1,3 @@
 #! /bin/bash
 echo $PYTHONPATH
-pytest -s -v /tmp/source_code/mysql_tests/test_mysql.py
+pytest -s -v -m "${TYPE}" -n"${N}" /tmp/source_code/test/test.py --alluredir=/tmp/allure/
