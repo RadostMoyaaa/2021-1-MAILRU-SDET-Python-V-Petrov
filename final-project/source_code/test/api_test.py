@@ -10,6 +10,14 @@ class TestLoginUserApi(BaseCaseApi):
     authorize = False
 
     def test_login_exist_user(self):
+        """
+        Тестирование функции /login
+        1. Создать в БД валидного пользователя
+        2. Авторизоваться, отправляя POST запрос с данными пользователя и ожидать 302 статус
+        3. Сделать запрос по созданному пользователю в БД
+        4. Проверить поля активность и начало времени активности
+        Ожидаемый результат: пользователь активен, время присутствует
+        """
         user = self.mysql_builder.create_test_user()
         self.do_authorize(username=user.username, password=user.password)
         db_user = self.mysql_client.get_user(username=user.username)
@@ -24,13 +32,30 @@ class TestLoginUserNegativeApi(BaseCaseApi):
     authorize = False
 
     def test_negative_none_exist_user(self):
+        """
+        Негативное тестирование функции /login
+        1. Авторизоваться, отправляя POST запрос с данными несуществующего пользователя и ожидать 401 статус
+        Ожидаемый результат: запрос вернул 401
+        """
         self.do_authorize(username='123456', password='1234567', expected_status=401)
 
     def test_login_invalid_username(self):
+        """
+        Негативное тестирование функции /login - - логирования пользователя без логина
+        1. Создать в БД валидного пользователя
+        2. Авторизоваться, отправляя POST запрос с пустым именем пользователя и ожидать 200 статус
+        Ожидаемый результат: запрос вернул 200
+        """
         user = self.mysql_builder.create_test_user()
         self.do_authorize(username='', password=user.password, expected_status=200)
 
     def test_login_invalid_password(self):
+        """
+        Негативное тестирование функции /login - логирования пользователя без пароля
+        1. Создать в БД валидного пользователя
+        2. Авторизоваться, отправляя POST запрос с пустым паролем пользователя и ожидать 200 статус
+        Ожидаемый результат: запрос вернул 200
+        """
         user = self.mysql_builder.create_test_user()
         self.do_authorize(username=user.username, password='', expected_status=200)
 
@@ -40,6 +65,14 @@ class TestLoginUserNegativeApi(BaseCaseApi):
 class TestAddUserApi(BaseCaseApi):
 
     def test_add_user(self):
+        """
+        Тестирование функции /api/add_user - добавление валидного пользователя
+        1. Авторизоваться
+        2. Создать валидный объект пользователя, сохранить в список созданных пользователей
+        3. Авторизоваться, отправляя POST запрос с пустым паролем пользователя и ожидать 201 статус
+        4. Сделать запрос в БД, проверить, что пользователь создан
+        Ожидаемый результат: запрос вернул 201, пользователь создан
+        """
         new_user = self.api_user_builder.create_user()
         self.add_user(new_user.username, new_user.password, new_user.email)
         db_user = self.mysql_client.get_user(username=new_user.username, password=new_user.password,
@@ -52,6 +85,14 @@ class TestAddUserApi(BaseCaseApi):
 class TestAddUserNegativeApi(BaseCaseApi):
 
     def test_add_exist_user(self):
+        """
+        Негативное тестирование функции /api/add_user - добавление существующего пользователя
+        1. Авторизоваться
+        2. Создать в БД валидного пользователя, сохранить в список созданных пользователей
+        3. Авторизоваться, отправляя POST запрос с пустым паролем пользователя и ожидать 201 статус
+        4. Сделать запрос в БД, проверить, что пользователь создан
+        Ожидаемый результат: запрос вернул 201, пользователь создан
+        """
         new_user = self.mysql_builder.create_test_user()
         self.add_user(username=new_user.username, password=new_user.password,
                       email=new_user.email, expected_status=304)
