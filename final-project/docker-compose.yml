@@ -3,7 +3,7 @@ version: '2.1'
 networks:
   my_net:
     external:
-      name: my_net
+      name: ${COMPOSE_NET}
 
 services:
   mysql_container:  # DataBase
@@ -18,36 +18,27 @@ services:
     healthcheck:
       test: [ 'CMD', 'mysqladmin', '-uroot', '-ppass', 'ping', '-h', '127.0.0.1' ]
       timeout: 1s
-      retries: 30
+      retries: 3
+
 
   mock_container:  # Mock VK_API
     networks:
       my_net: null
     image: "mock:latest"
-    ports:
-      - "5000:5000"
     volumes:
       - ./mock:/tmp/source_code
     entrypoint: /bin/bash /tmp/source_code/start_tests.sh
-#    healthcheck:
-#      test: curl --fail -s http://0.0.0.0:5000/ || exit 1
-#      timeout: 1s
-#      retries: 30
 
   app:  # Application
     networks:
       my_net: null
     image: "myapp:latest"
-    ports:
-      - "8080:8080"
     volumes:
       - ./services_configs/app/app_config:/tmp/app_config
     entrypoint: /app/myapp --config=/tmp/app_config
     depends_on:
       mysql_container:
         condition: service_healthy
-#      mock_container:
-#        condition: service_healthy
 
   selenoid:
     networks:
@@ -56,21 +47,19 @@ services:
     volumes:
       - ./services_configs/selenoid/:/etc/selenoid
       - /var/run/docker.sock:/var/run/docker.sock
-    command: [ "-conf", "/etc/selenoid/browsers.json", "-container-network", "my_net" ]
-    ports:
-      - "4444:4444"
+    command: [ "-conf", "/etc/selenoid/browsers.json", "-container-network", "${COMPOSE_NET}" ]
 
   tests: # Tests
     networks:
       my_net: null
-    build: ./source_code/
+    image: "test_myapp:latest"
     tty: true
     environment:
-      - TYPE
+      - TYPE=${PYTEST_MARK}
       - N=0
     volumes:
       - ./source_code:/tmp/source_code
-      - /tmp/allure:/tmp/allure
+      - $WORKSPACE/allure-results:/tmp/allure
     entrypoint: /bin/bash /tmp/source_code/start_tests.sh
     depends_on:
       app:
