@@ -23,7 +23,7 @@ class BaseCaseApi:
             self.do_authorize(username=self.main_user.username, password=self.main_user.password)
             self.logger.info('Authorize is done')
         yield
-        # self.mysql_client.clear_all_users(self.mysql_builder.users, self.api_user_builder.users)
+        self.mysql_client.clear_all_users(self.mysql_builder.users, self.api_user_builder.users)
 
     def do_authorize(self, username, password, submit='Login', expected_status=302):
         return self.client_api.post_login(username, password, submit, expected_status)

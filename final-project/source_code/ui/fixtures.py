@@ -16,14 +16,11 @@ class UnsupportedBrowserType(Exception):
 
 def get_driver(config):
     browser_name = config['browser']
-    device = config['device']
 
     if browser_name == 'chrome':
         options = ChromeOptions()
         options.set_capability("browserVersion", "89.0")
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
-        if device == 'mw':  # TODO исправить
-            options.add_experimental_option("mobileEmulation", {"deviceName": "Pixel 2"})
         caps = {'browserName': browser_name,
                 'version': '89.0'
                 }

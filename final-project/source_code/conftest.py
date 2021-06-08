@@ -1,12 +1,7 @@
 import shutil
-import sys
-
-
 
 from mysql_client.client import MySqlClient
-import os
 from api_client.client import ApiClient
-import attributes
 import logging
 from ui.fixtures import *
 
@@ -14,15 +9,13 @@ from ui.fixtures import *
 def pytest_addoption(parser):
     parser.addoption('--url', default=f'http://app:8080')
     parser.addoption('--browser', default='chrome')
-    parser.addoption('--device', default='web')
 
 
 @pytest.fixture(scope='session')
 def config(request):
     url = request.config.getoption('--url')
     browser = request.config.getoption('--browser')
-    device = request.config.getoption('--device')
-    return {'url': url, 'browser': browser, 'device': device}
+    return {'url': url, 'browser': browser}
 
 
 @pytest.fixture(scope='session')
@@ -61,15 +54,6 @@ def pytest_configure(config):
         prepare_database()
         base_dir(base_test_dir)
     config.base_test_dir = base_test_dir
-
-
-# def pytest_unconfigure(config):  # TODO исправить
-#     if not hasattr(config, 'workerinput'):
-#         print('Unconfigure')
-#         # my_sql_client = MySqlClient(user='test_qa', password='qa_test', db_name='TEST')
-#         # my_sql_client.connect()
-#         # # my_sql_client.clear_all_users()
-#         # my_sql_client.connection.close()
 
 
 @pytest.fixture(scope='function')

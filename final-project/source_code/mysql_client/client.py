@@ -44,9 +44,9 @@ class MySqlClient:
 
     def delete_user(self, **kwargs):
         self.session.query(TestUsers).filter_by(**kwargs).delete()
+        self.session.commit()
 
-    def clear_all_users(self, mysql_users=None, test_users=None):  # Deleting all users
-        # TODO Исправить
+    def clear_all_users(self, mysql_users=None, test_users=None):
         if mysql_users is not None:
             for user in mysql_users:
                 try:
