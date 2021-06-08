@@ -52,11 +52,11 @@ services:
   tests: # Tests
     networks:
       my_net: null
-    image: "test_myapp:latest"
+    image: "fp_tests:latest"
     tty: true
     environment:
       - TYPE=${PYTEST_MARK}
-      - N=0
+      - N=${THREADS_NUMBER}
     volumes:
       - ./source_code:/tmp/source_code
       - $WORKSPACE/allure-results:/tmp/allure
