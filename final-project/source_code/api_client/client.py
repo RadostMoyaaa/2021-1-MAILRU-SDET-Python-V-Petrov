@@ -19,7 +19,6 @@ logger = logging.getLogger('test')
 class ApiClient:
     def __init__(self, base_url):
         self.base_url = base_url
-        self.cookie = None
         self.session = requests.Session()
 
     @staticmethod
@@ -47,14 +46,9 @@ class ApiClient:
             logger.info(f'{log_str}\n'
                         f'RESPONSE CONTENT: {response.text}\n\n')
 
-    @property
-    def post_headers(self):
-        return {'Content-Type': 'application/json'}
-
-    def _request(self, method, location, headers=None, expected_status=200, jsonify=True, **kwargs):
+    def _request(self, method, location, headers=None, expected_status=200, **kwargs):
         data = kwargs.get('json', None) if kwargs.get('data', None) is None else kwargs.get('data')
         url = urljoin(self.base_url, location)
-        logger.info(url)
         self.log_pre(method, url, headers, data, expected_status)
         if "json" in kwargs.keys():
             response = self.session.request(method, url, headers=headers, json=data, allow_redirects=False)
@@ -66,9 +60,6 @@ class ApiClient:
                    f'Expected status_code: {expected_status}.'
             logger.exception(info)
             raise ResponseStatusCodeException(info)
-        if jsonify:
-            json_response = response.json()
-            return json_response
         return response
 
     def get_status(self):
@@ -79,12 +70,11 @@ class ApiClient:
         location = '/login'
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
         data = {"username": username, "password": password, "submit": submit}
-        result = self._request('POST', location=location, headers=headers, data=data, expected_status=expected_status, jsonify=False)
+        result = self._request('POST', location=location, headers=headers, data=data, expected_status=expected_status)
         try:
             response_cookies = result.headers['Set-Cookie'].split(';')
         except Exception as e:
             raise InvalidLoginException(e)
-        self.cookie = response_cookies[0]
         return result
 
     def post_add_user(self, username, password, email, expected_status=201):
@@ -96,18 +86,18 @@ class ApiClient:
 
     def get_delete_user(self, username, expected_status=204):
         location = f'/api/del_user/{username}'
-        result = self._request('GET', location=location, headers=None, json=None, expected_status=expected_status, jsonify=False)
+        result = self._request('GET', location=location, headers=None, json=None, expected_status=expected_status)
         return result
 
     def get_block_user(self, username, expected_status=200):
         location = f'/api/block_user/{username}'
-        result = self._request('GET', location=location, headers=None, json=None, expected_status=expected_status, jsonify=False)
+        result = self._request('GET', location=location, headers=None, json=None, expected_status=expected_status)
         return result
 
     def get_unblock_user(self, username, expected_status=200):
         location = f'/api/accept_user/{username}'
         result = self._request('GET', location=location, headers=None, json=None,
-                               expected_status=expected_status, jsonify=False)
+                               expected_status=expected_status)
         return result
 
     def post_registration(self, username, password, email, confirm, term='y', submit='Register', expected_status=302):
@@ -116,11 +106,11 @@ class ApiClient:
         data = {"username": username, "email": email, "password": password,
                 "confirm": confirm, "term": term, "submit": submit}
         result = self._request('POST', location=location, headers=headers, data=data,
-                               expected_status=expected_status, jsonify=False)
+                               expected_status=expected_status)
         return result
 
     def get_logout(self, expected_status=302):
         location = '/logout'
         result = self._request('GET', location=location, headers=None, data=None,
-                               expected_status=expected_status, jsonify=False)
+                               expected_status=expected_status)
         return result

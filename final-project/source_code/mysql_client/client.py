@@ -44,29 +44,31 @@ class MySqlClient:
 
     def delete_user(self, **kwargs):
         self.session.query(TestUsers).filter_by(**kwargs).delete()
-        self.session.commit()
 
-    def clear_all_users(self, mysql_users=None, api_users=None):  # Deleting all users
+    def clear_all_users(self, mysql_users=None, test_users=None):  # Deleting all users
+        # TODO Исправить
         if mysql_users is not None:
             for user in mysql_users:
                 try:
-                    self.delete_user(username=user.username, password=user.password, email=user.email)
+                    self.delete_user(username=user.username)
                 except ObjectDeletedError:
                     pass
-        if api_users is not None:
-            for user in api_users:
+        if test_users is not None:
+            for user in test_users:
                 try:
-                    self.delete_user(username=user.username, password=user.password, email=user.email)
+                    self.delete_user(username=user.username)
                 except ObjectDeletedError:
                     pass
-
-    # def clear_all_users(self):
-    #     self.execute_query(f'TRUNCATE TABLE test_users', fetch=False)
 
     def get_user(self, **kwargs):
         self.session.commit()
         user = self.session.query(TestUsers).filter_by(**kwargs).first()
         return user
+
+    def get_users(self, **kwargs):
+        self.session.commit()
+        users = self.session.query(TestUsers).filter_by(**kwargs).all()
+        return users
 
     def check_exist_user(self, **kwargs):
         self.session.commit()

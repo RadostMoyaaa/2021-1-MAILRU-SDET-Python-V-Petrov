@@ -9,17 +9,20 @@ from selenium.webdriver import ActionChains
 logger = logging.getLogger('test')
 
 
+class PageOpenException(Exception):
+    pass
+
+
 class BasePage(object):
     url = 'http://app:8080'
     locators = LoginPageLocators()
 
     def __init__(self, driver):
         self.driver = driver
-        logger.info(f'{self.__class__.__name__} page is opening...')
+        self.logger = logger
 
-    @allure.step('Find element {locator}')
-    def find(self, locator, timeout=20):
-        # return self.wait(timeout).until(EC.presence_of_element_located(locator))
+    def find(self, locator, timeout=5):
+        self.logger.info(f'Find element {locator}')
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))
 
     def wait(self, timeout):
@@ -32,8 +35,8 @@ class BasePage(object):
     def action_chains(self):
         return ActionChains(self.driver)
 
-    @allure.step('Clicking on {locator}')
-    def click(self, locator, timeout=20):
+    def click(self, locator, timeout=3):
+        self.logger.info(f'Clicking on {locator}')
         for i in range(10):
             try:
                 element = self.find(locator, timeout)
@@ -45,8 +48,18 @@ class BasePage(object):
                 if i == 9:
                     raise
 
-    @allure.step('Send {value} to {locator}')
     def send_data(self, locator, value):
         form = self.find(locator)
         form.clear()
         form.send_keys(value)
+        self.logger.info(f'Send {value} to {locator}')
+
+    def check_window(self, expected_url):
+        self.logger.info(f'Checking window {expected_url}')
+        try:
+            window = self.driver.window_handles
+            self.driver.switch_to_window(window[1])
+        except:
+            raise PageOpenException('the page did not open in a separate window')
+        assert self.driver.current_url == expected_url, f'the expected link {expected_url} is not equal ' \
+                                                        f'to the current one{self.driver.current_url} '

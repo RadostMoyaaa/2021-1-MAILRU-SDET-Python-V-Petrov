@@ -1,3 +1,4 @@
+import json
 import random
 
 from flask import Flask, jsonify, request
@@ -5,9 +6,7 @@ import settings
 
 app = Flask(__name__)
 
-MOCK_DATA = []
-
-user_id_seq = 1
+MOCK_DATA = {}
 
 
 @app.route('/', methods=['GET'])
@@ -16,12 +15,22 @@ def get_root():
 
 
 @app.route('/vk_id/<username>', methods=['GET'])
-def get_user_surname(username):
+def get_id(username):
     if username in MOCK_DATA:
-        vk_id = random.randint(0, 100)
+        vk_id = MOCK_DATA[username]
         return jsonify({'vk_id': vk_id}), 200
     else:
         return jsonify({}), 404
+
+
+@app.route('/vk_id/add_user', methods=['POST'])
+def add_user():
+    user_name = json.loads(request.data)['name']
+    if user_name not in MOCK_DATA:
+        MOCK_DATA[user_name] = str(random.randint(0, 100))
+        return jsonify({'id': MOCK_DATA[user_name]}), 201
+    else:
+        return jsonify(f'User {user_name} already have vk_id'), 400
 
 
 def shutdown_mock():

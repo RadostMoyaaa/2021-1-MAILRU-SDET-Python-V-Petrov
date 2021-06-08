@@ -7,6 +7,7 @@ class RegistrationPage(BasePage):
     locators = RegistrationPageLocators()
 
     def registration(self, username, email, password, confirm, term=True):
+        self.logger.info(f'Registration - {username}, {email}, {password}, {confirm}, {term}')
         self.send_data(locator=self.locators.USERNAME, value=username)
         self.send_data(locator=self.locators.EMAIL, value=email)
         self.send_data(locator=self.locators.PASS, value=password)
@@ -18,4 +19,5 @@ class RegistrationPage(BasePage):
 
     def get_error_message(self):
         message = self.find(self.locators.ERROR_MESSAGE)
+        self.logger.info(f'Checking error message - {message.text}')
         return message.text

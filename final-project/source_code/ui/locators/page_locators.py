@@ -24,7 +24,7 @@ class MainPageLocators:
     NAVBAR_BUTTON = (By.XPATH, "//li[@class='uk-parent']/a[contains(text(), '{}')]")
     NAVBAR_LINK = (By.XPATH, "//a[text()='{}']")
     OVERLAY_LINK = (By.XPATH, "//div[contains(text(), '{}')]/following-sibling::figure")
-    # VK_ID = (By.XPATH, "//li[contains(text(), '{}' )]")
+    VK_ID = (By.XPATH, "//div[@id='login-name']//li[(text()='VK ID: {}')]")
     LOGOUT_BUTTON = (By.XPATH, "//div[@id='logout']")
     RANDOM_TEXT = (By.XPATH, "//footer//p[2]")
 

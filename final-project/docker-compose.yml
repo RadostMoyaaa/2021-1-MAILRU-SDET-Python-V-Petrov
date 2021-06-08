@@ -29,10 +29,10 @@ services:
     volumes:
       - ./mock:/tmp/source_code
     entrypoint: /bin/bash /tmp/source_code/start_tests.sh
-    healthcheck:
-      test: curl --fail -s http://0.0.0.0:5000/ || exit 1
-      timeout: 1s
-      retries: 30
+#    healthcheck:
+#      test: curl --fail -s http://0.0.0.0:5000/ || exit 1
+#      timeout: 1s
+#      retries: 30
 
   app:  # Application
     networks:
@@ -46,8 +46,8 @@ services:
     depends_on:
       mysql_container:
         condition: service_healthy
-      mock_container:
-        condition: service_healthy
+#      mock_container:
+#        condition: service_healthy
 
   selenoid:
     networks:
@@ -68,6 +68,7 @@ services:
     environment:
       - TYPE
       - N=0
+      - DEV=web
     volumes:
       - ./source_code:/tmp/source_code
       - /tmp/allure:/tmp/allure
