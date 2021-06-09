@@ -6,7 +6,7 @@
     pipeline-scm:
       scm:
         - qa-python-scm
-      script-path: "simple.groovy"
+      script-path: "TEST_FRAMEWORK/simple.groovy"
 
     wrappers:
       - timestamps

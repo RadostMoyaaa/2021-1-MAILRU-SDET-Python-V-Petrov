@@ -359,7 +359,7 @@ class TestMainPage(BaseCaseUi):
         Ожидаемый результат: Свойство active равно 0
         """
         self.main_page.click_logout()
-        assert 'http://0.0.0.0:8080/login' == self.driver.current_url
+        assert 'http://app:8080/login' == self.driver.current_url
         database_user = self.mysql_client.get_user(username=self.user.username)
         assert database_user.active == 0
 
