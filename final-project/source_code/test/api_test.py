@@ -336,6 +336,38 @@ class TestRegistrationNegativeUserApi(BaseCaseApi):
         users = self.mysql_client.get_users(username=user.username)
         assert len(users) == 0, f'Invalid user was registered {users}'
 
+    def test_negative_exist_user_registration(self):
+        """
+        Негативное тестирование функции /reg - регистрация существующего пользователя
+        1. Создать в БД пользователя
+        2. Зарегистрировать пользователя с данными существующего пользователя, ожидать 409 статус код
+        3. Сделать запрос в базу данных по получению записей по созданному пользователю
+        4. Проверить количество записей
+        Ожидаемый результат: Количество записей равно 1
+        """
+        user = self.mysql_builder.create_test_user()
+        self.register_user(username=user.username, password=user.password,
+                           email=user.email, confirm=user.password, expected_status=409)
+        users = self.mysql_client.get_users(username=user.username)
+        assert len(users) == 1, f'Same user was registered {users}'
+
+    def test_negative_same_email_registration(self):
+        """
+        Негативное тестирование функции /reg - регистрация пользователя c одинаковой почтой
+        1. Создать в БД пользователя
+        2. Создать объект пользователя с почтой пользователя из БД
+        2. Зарегистрировать пользователя с данными объекта пользователя, ожидать 409 статус код
+        3. Сделать запрос в базу данных по получению записей по зарегистрированному пользователю
+        4. Проверить количество записей
+        Ожидаемый результат: Количество записей равно 1
+        """
+        db_user = self.mysql_builder.create_test_user()
+        user = self.api_user_builder.create_user(email=db_user.email)
+        self.register_user(username=user.username, password=user.password,
+                           email=user.email, confirm=user.password, expected_status=409)
+        users = self.mysql_client.get_users(username=user.username)
+        assert len(users) == 1, f'Invalid user was registered {users}'
+
 
 @pytest.mark.api
 @pytest.mark.positive
@@ -370,3 +402,17 @@ class TestLogoutUserNegativeApi(BaseCaseApi):
         """
         response = self.logout_user()
         assert 'http://app:8080/login?next=/logout' == response.headers['Location']
+
+
+@pytest.mark.api
+@pytest.mark.positive
+class TestFindMeJSApi(BaseCaseApi):
+    """
+    Тестирование статик файла find_me - файл возвращается по запросу
+    1. Создать в БД валидного пользователя
+    2. Авторизоваться, отправляя POST запрос с данными пользователя и ожидать 302 статус код
+    3. Сделать GET запрос на получение static файла find_me
+    Ожидаемый результат: статус 200, файл найден
+    """
+    def test_check_findjs(self):
+        self.get_find_me(expected_status=200)

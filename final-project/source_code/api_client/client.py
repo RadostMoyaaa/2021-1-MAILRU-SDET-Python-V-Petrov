@@ -114,3 +114,9 @@ class ApiClient:
         result = self._request('GET', location=location, headers=None, data=None,
                                expected_status=expected_status)
         return result
+
+    def get_find_me(self, expected_status=200):
+        location = '/static/scripts/findMeError.js'
+        result = self._request('GET', location=location, headers=None, data=None,
+                               expected_status=expected_status)
+        return result

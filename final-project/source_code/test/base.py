@@ -48,6 +48,8 @@ class BaseCaseApi:
     def logout_user(self, expected_status=302):
         return self.client_api.get_logout(expected_status=expected_status)
 
+    def get_find_me(self, expected_status=200):
+        return self.client_api.get_find_me(expected_status=expected_status)
 
 class BaseCaseUi:
     authorize = True

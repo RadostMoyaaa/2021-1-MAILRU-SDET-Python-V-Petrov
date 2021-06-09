@@ -5,11 +5,11 @@ from selenium.common.exceptions import TimeoutException
 from base import BaseCaseUi
 
 
-def post_user_to_mock(name):
+def post_user_to_mock(name, value):
     """
     Функция для отправки данных в мок
     """
-    data = {'name': name}
+    data = {'name': name, 'value': value}
     response = requests.post('http://mock_container:5000/vk_id/add_user', json=data)
     assert response.status_code == 201
     return response.json()['id']
@@ -130,6 +130,7 @@ class TestRegistrationPageNegative(BaseCaseUi):
 
     @pytest.mark.parametrize(("email", "expected_message"), [(1, "Incorrect email length"),
                                                              ("@gmail.com", "Invalid email address"),
+                                                             ("123456@yandex.ru.ru", "Invalid email address"),
                                                              (65, "Incorrect email length")])
     def test_invalid_email_registration(self, email, expected_message):  # +
         """
@@ -216,6 +217,22 @@ class TestRegistrationPageNegative(BaseCaseUi):
         self.send_invalid_data_registration(expected_message='User already exist', username=exist_user.username,
                                             email=exist_user.email, password=exist_user.password,
                                             confirm=exist_user.password)
+
+    def test_invalid_same_email_registration(self):
+        """
+        Негативное тестирование регистрации на RegistrationPage - регистрация пользователя c одинаковой почтой
+        0. Добавить в БД валидного пользователя
+        1. Создать новый объект пользователя с почтой пользователя из БД
+        2. Открыть страницу LoginPage
+        3. Перейти на RegistrationPage
+        4. Ввести данные  поль.-я во все поля формы RegistrationPage, поставить галочку согласия,
+        нажать кнопку Register
+        5. Проверить url текущей на страницы на несоответствие url MainPage
+        6. Проверяем ожидаемое сообщение с отображаемым
+        Ожидаемый результат: Сообщение корректное, пользователь не зарегистрирован
+        """
+        exist_user = self.mysql_builder.create_test_user()
+        self.send_invalid_data_registration(expected_message='User already exist', email=exist_user.email)
 
 
 @pytest.mark.ui
@@ -342,7 +359,7 @@ class TestMainPage(BaseCaseUi):
         Ожидаемый результат: Свойство active равно 0
         """
         self.main_page.click_logout()
-        assert 'http://app:8080/welcome' != self.driver.current_url
+        assert 'http://0.0.0.0:8080/login' == self.driver.current_url
         database_user = self.mysql_client.get_user(username=self.user.username)
         assert database_user.active == 0
 
@@ -356,10 +373,23 @@ class TestMainPage(BaseCaseUi):
         4. Найти элемент с полученным vk_id
         Ожидаемый результат: Элемент в vk_id найден
         """
-        vk_id = post_user_to_mock(self.user.username)
+        vk_id = post_user_to_mock(self.user.username, '666')
         self.logger.info(f'POST user to mock, get id {vk_id}')
         self.main_page.driver.refresh()
         self.main_page.get_vk_id(expected_id=vk_id)
+
+    def test_main_page_minimize_window(self):
+        """
+        Тестирование UI в маленьком разрешении MainPage
+        0. Создать в БД пользователя
+        1. Авторизоваться
+        2. Уменьшить размер бразуера по ширине до 700
+        3. Проверка доступности кнопки logout
+        Ожидаемый результат: Кнопка logout доступна, клик произошёл
+        """
+        window_size = (700, 960)
+        self.main_page.driver.set_window_size(window_size[0], window_size[1])
+        self.main_page.click_logout()
 
 
 @pytest.mark.ui
@@ -371,10 +401,27 @@ class TestMainPageNegative(BaseCaseUi):
         Тестирование отсутствия VK_ID в MainPage
         0. Создать в БД пользователя
         1. Авторизоваться
-        3. Проверить отсутствие элемента VK_ID
+        2. Проверить отсутствие элемента VK_ID
         Ожидаемый результат: Элемент в vk_id не найден
         """
         with pytest.raises(TimeoutException):
             self.main_page.get_vk_id()
 
-
+    def test_to_much_vk_id(self):
+        """
+        Тестирование большого VK_ID в MainPage
+        0. Создать в БД пользователя
+        1. Авторизоваться
+        2. Отправить в мок данные большую строку vk_id по пользователю, получить vk_id от мока
+        3. Обновить страницу
+        4. Найти элемент с полученным vk_id
+        5. Клик на кнопку logout
+        Ожидаемый результат: Элемент в vk_id найден, выход пользователя произведен
+        """
+        vk_id = post_user_to_mock(self.user.username, 'a'*300)
+        self.main_page.driver.refresh()
+        self.main_page.get_vk_id(expected_id=vk_id)
+        self.main_page.click_logout()
+        assert 'http://0.0.0.0:8080/login' == self.driver.current_url
+        database_user = self.mysql_client.get_user(username=self.user.username)
+        assert database_user.active == 0
