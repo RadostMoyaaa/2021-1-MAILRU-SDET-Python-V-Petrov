@@ -46,15 +46,13 @@ class MySqlClient:
         self.session.query(TestUsers).filter_by(**kwargs).delete()
         self.session.commit()
 
-    def clear_all_users(self, mysql_users=None, test_users=None):
-        if mysql_users is not None:
-            for user in mysql_users:
-                try:
-                    self.delete_user(username=user.username)
-                except ObjectDeletedError:
-                    pass
-        if test_users is not None:
-            for user in test_users:
+    def clear_all_users(self, *args):
+        for list_users in args:
+            self.delete_created_users(list_users)
+
+    def delete_created_users(self, users):
+        if users is not None:
+            for user in users:
                 try:
                     self.delete_user(username=user.username)
                 except ObjectDeletedError:

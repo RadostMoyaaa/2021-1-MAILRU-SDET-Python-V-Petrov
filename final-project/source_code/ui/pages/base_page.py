@@ -58,8 +58,8 @@ class BasePage(object):
         self.logger.info(f'Checking window {expected_url}')
         try:
             window = self.driver.window_handles
-            self.driver.switch_to_window(window[1])
-        except:
+            self.driver.switch_to.window(window[1])
+        except IndexError:
             raise PageOpenException('the page did not open in a separate window')
         assert self.driver.current_url == expected_url, f'the expected link {expected_url} is not equal ' \
                                                         f'to the current one{self.driver.current_url} '

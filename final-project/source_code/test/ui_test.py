@@ -222,14 +222,6 @@ class TestRegistrationPageNegative(BaseCaseUi):
 @pytest.mark.positive
 class TestMainPage(BaseCaseUi):
 
-    def go_navbar_link(self, navbar_btn_name, navbar_link, expected_url):
-        self.main_page.go_to_navbar_link(navbar_btn_name, navbar_link)
-        self.main_page.check_window(expected_url=expected_url)
-
-    def go_overlay_link(self, btn_title, expected_url):
-        self.main_page.go_to_overlay_link(btn_title)
-        self.main_page.check_window(expected_url=expected_url)
-
     def test_python_history(self):
         """
         Тестирование navbar в MainPage - переход по сабменю в кнопке Python
@@ -240,7 +232,7 @@ class TestMainPage(BaseCaseUi):
         4. Проверить, что открылось новое окно
         Ожидаемый результат: URL в новом окне соответствует https://en.wikipedia.org/wiki/History_of_Python
         """
-        self.go_navbar_link('Python', 'Python history', 'https://en.wikipedia.org/wiki/History_of_Python')
+        self.main_page.check_navbar_link('Python', 'Python history', 'https://en.wikipedia.org/wiki/History_of_Python')
 
     def test_python_about_flask(self):
         """
@@ -252,7 +244,7 @@ class TestMainPage(BaseCaseUi):
         4. Проверить, что открылось новое окно
         Ожидаемый результат: URL в новом окне соответствует https://flask.palletsprojects.com/en/1.1.x/#
         """
-        self.go_navbar_link('Python', 'About Flask', 'https://flask.palletsprojects.com/en/1.1.x/#')
+        self.main_page.check_navbar_link('Python', 'About Flask', 'https://flask.palletsprojects.com/en/1.1.x/#')
 
     def test_linux_centos(self):  # 6. Bug - открывается не та ссылка
         """
@@ -264,7 +256,7 @@ class TestMainPage(BaseCaseUi):
         4. Проверить, что открылось новое окно
         Ожидаемый результат: URL в новом окне соответствует https://www.centos.org/download/
         """
-        self.go_navbar_link('Linux', 'Download Centos7', 'https://www.centos.org/download/')
+        self.main_page.check_navbar_link('Linux', 'Download Centos7', 'https://www.centos.org/download/')
 
     def test_network_news(self):
         """
@@ -276,7 +268,7 @@ class TestMainPage(BaseCaseUi):
         4. Проверить, что открылось новое окно
         Ожидаемый результат: URL в новом окне соответствует https://www.wireshark.org/news/
         """
-        self.go_navbar_link('Network', 'News', 'https://www.wireshark.org/news/')
+        self.main_page.check_navbar_link('Network', 'News', 'https://www.wireshark.org/news/')
 
     def test_network_download(self):
         """
@@ -288,7 +280,7 @@ class TestMainPage(BaseCaseUi):
         4. Проверить, что открылось новое окно
         Ожидаемый результат: URL в новом окне соответствует https://www.wireshark.org/#download
         """
-        self.go_navbar_link('Network', 'Download', 'https://www.wireshark.org/#download')
+        self.main_page.check_navbar_link('Network', 'Download', 'https://www.wireshark.org/#download')
 
     def test_network_examples(self):
         """
@@ -300,7 +292,7 @@ class TestMainPage(BaseCaseUi):
         4. Проверить, что открылось новое окно
         Ожидаемый результат: URL в новом окне соответствует https://hackertarget.com/tcpdump-examples/
         """
-        self.go_navbar_link('Network', 'Examples ', 'https://hackertarget.com/tcpdump-examples/')
+        self.main_page.check_navbar_link('Network', 'Examples ', 'https://hackertarget.com/tcpdump-examples/')
 
     def test_menu_overlay_api(self):
         """
@@ -311,7 +303,7 @@ class TestMainPage(BaseCaseUi):
         3. Проверить, что открылось новое окно
         Ожидаемый результат: URL в новом окне соответствует https://en.wikipedia.org/wiki/API
         """
-        self.go_overlay_link(btn_title='What is an API?', expected_url='https://en.wikipedia.org/wiki/API')
+        self.main_page.check_overlay_link(btn_title='What is an API?', expected_url='https://en.wikipedia.org/wiki/API')
 
     def test_menu_overlay_future(self):
         """
@@ -323,8 +315,8 @@ class TestMainPage(BaseCaseUi):
         Ожидаемый результат: URL в новом окне соответствует https://www.popularmechanics.com/technology/infrastructure/
         a29666802/future-of-the-internet/
         """
-        self.go_overlay_link(btn_title='Future of internet',
-                             expected_url='https://www.popularmechanics.com/technology/infrastructure/'
+        self.main_page.check_overlay_link(btn_title='Future of internet',
+                                          expected_url='https://www.popularmechanics.com/technology/infrastructure/'
                                           'a29666802/future-of-the-internet/')
 
     def test_menu_overlay_smtp(self):
@@ -336,8 +328,8 @@ class TestMainPage(BaseCaseUi):
         3. Проверить, что открылось новое окно
         Ожидаемый результат: URL в новом окне соответствует https://ru.wikipedia.org/wiki/SMTP
         """
-        self.go_overlay_link(btn_title='Lets talk about SMTP?',
-                             expected_url='https://ru.wikipedia.org/wiki/SMTP')
+        self.main_page.check_overlay_link(btn_title='Lets talk about SMTP?',
+                                          expected_url='https://ru.wikipedia.org/wiki/SMTP')
 
     def test_menu_logout(self):
         """

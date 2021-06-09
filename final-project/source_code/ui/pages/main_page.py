@@ -8,6 +8,14 @@ class MainPage(BasePage):
     locators = MainPageLocators()
     url = f'http://app:8080/welcome/'
 
+    def check_navbar_link(self, navbar_btn_name, navbar_link, expected_url):
+        self.go_to_navbar_link(navbar_btn_name, navbar_link)
+        self.check_window(expected_url=expected_url)
+
+    def check_overlay_link(self, btn_title, expected_url):
+        self.go_to_overlay_link(btn_title)
+        self.check_window(expected_url=expected_url)
+
     def go_to_navbar_link(self, navbar_button, navbar_link):
         self.logger.info(f'Going navbar {navbar_button}, click {navbar_link}')
         button = self.find((self.locators.NAVBAR_BUTTON[0], self.locators.NAVBAR_BUTTON[1].format(navbar_button)))

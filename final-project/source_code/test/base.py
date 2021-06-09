@@ -67,6 +67,4 @@ class BaseCaseUi:
             self.main_page = self.login_page.do_login(username=self.user.username, password=self.user.password)
             self.logger.info('Authorize is done')
         yield
-        # request.config.users = self.ui_user_builder.users
-        # print('DB users in config:', request.config.users)
-        # self.mysql_client.clear_all_users(self.mysql_builder.users, self.ui_user_builder.users)
+        self.mysql_client.clear_all_users(self.mysql_builder.users, self.ui_user_builder.users)
