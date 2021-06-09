@@ -55,8 +55,8 @@ services:
     image: "fp_tests:latest"
     tty: true
     environment:
-      - TYPE=${PYTEST_MARK}
-      - N=${THREADS_NUMBER}
+      - TYPE=${MARK}
+      - N=${WORKERS}
     volumes:
       - ./source_code:/tmp/source_code
       - $WORKSPACE/allure-results:/tmp/allure
