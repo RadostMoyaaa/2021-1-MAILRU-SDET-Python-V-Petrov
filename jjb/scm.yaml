@@ -1,9 +1,0 @@
-- scm:
-    name: qa-python-scm
-    scm:
-      - git:
-          url: git@github.com:RadostMoyaaa/2021-1-MAILRU-SDET-Python-V-Petrov.git
-          credentials-id: "jenkins-user-for-private-test-github-repo"
-          basedir: .
-          branches:
-            - Final_project
