@@ -72,3 +72,13 @@ class MySqlClient:
         self.session.commit()
         exist = self.session.query(self.session.query(TestUsers).filter_by(**kwargs).exists()).scalar()
         return exist
+
+    def update_username(self, user, username):
+        user.username = username
+        self.session.commit()
+        return user
+
+    def update_access(self, user, access):
+        user.access = access
+        self.session.commit()
+        return user
