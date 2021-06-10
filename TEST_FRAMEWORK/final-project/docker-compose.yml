@@ -1,14 +1,14 @@
 version: '2.1'
 
 networks:
-  my_net:
+  docker_network:
     external:
       name: ${COMPOSE_NET}
 
 services:
   mysql_container:  # DataBase
     networks:
-      my_net: null
+      docker_network: null
     image: "percona:latest"
     environment:
       MYSQL_ROOT_PASSWORD: pass
@@ -23,15 +23,15 @@ services:
 
   mock_container:  # Mock VK_API
     networks:
-      my_net: null
+      docker_network: null
     image: "mock:latest"
     volumes:
-      - ./mock:/tmp/source_code
+      - ./vk_mock:/tmp/source_code
     entrypoint: /bin/bash /tmp/source_code/start_tests.sh
 
   app:  # Application
     networks:
-      my_net: null
+      docker_network: null
     image: "myapp:latest"
     volumes:
       - ./services_configs/app/app_config:/tmp/app_config
@@ -42,16 +42,16 @@ services:
 
   selenoid:
     networks:
-      my_net: null
+      docker_network: null
     image: "aerokube/selenoid:latest"
     volumes:
-      - ./services_configs/selenoid/:/etc/selenoid
+      - ./services_configs/selenoid_config/:/etc/selenoid_config
       - /var/run/docker.sock:/var/run/docker.sock
-    command: [ "-conf", "/etc/selenoid/browsers.json", "-container-network", "${COMPOSE_NET}" ]
+    command: [ "-conf", "/etc/selenoid_config/browsers.json", "-container-network", "${COMPOSE_NET}" ]
 
   tests: # Tests
     networks:
-      my_net: null
+      docker_network: null
     image: "fp_tests:latest"
     tty: true
     environment:

@@ -1,6 +1,6 @@
-from ui.locators.page_locators import RegistrationPageLocators
-from ui.pages.base_page import BasePage
-from ui.pages.main_page import MainPage
+from ui_utils.locators.page_locators import RegistrationPageLocators
+from ui_utils.pages.base_page import BasePage
+from ui_utils.pages.main_page import MainPage
 
 
 class RegistrationPage(BasePage):

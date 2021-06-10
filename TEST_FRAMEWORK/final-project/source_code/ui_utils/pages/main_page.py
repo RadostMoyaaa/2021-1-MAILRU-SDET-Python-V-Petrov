@@ -1,7 +1,7 @@
 import allure
 
-from ui.locators.page_locators import MainPageLocators
-from ui.pages.base_page import BasePage
+from ui_utils.locators.page_locators import MainPageLocators
+from ui_utils.pages.base_page import BasePage
 
 
 class MainPage(BasePage):
@@ -34,3 +34,9 @@ class MainPage(BasePage):
         vk_id_locator = (self.locators.VK_ID[0], self.locators.VK_ID[1].format(expected_id))
         self.find(vk_id_locator)
         self.logger.info(f'Checking VK_ID: expected - {expected_id}')
+
+    def get_username(self):
+        name = self.find(self.locators.USERNAME_TEXT).text
+        return name
+
+

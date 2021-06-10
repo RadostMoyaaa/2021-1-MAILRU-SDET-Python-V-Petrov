@@ -27,4 +27,6 @@ class MainPageLocators:
     VK_ID = (By.XPATH, "//div[@id='login-name']//li[(text()='VK ID: {}')]")
     LOGOUT_BUTTON = (By.XPATH, "//div[@id='logout']")
     RANDOM_TEXT = (By.XPATH, "//footer//p[2]")
+    USERNAME_TEXT = (By.XPATH, "//div[@id='login-name']//li[1]")
+
 

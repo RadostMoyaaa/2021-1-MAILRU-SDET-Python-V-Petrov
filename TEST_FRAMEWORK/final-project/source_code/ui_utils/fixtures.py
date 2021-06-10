@@ -5,9 +5,9 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 
-import attributes
-from ui.pages.base_page import BasePage
-from ui.pages.login_page import LoginPage
+import source_code_configs
+from ui_utils.pages.base_page import BasePage
+from ui_utils.pages.login_page import LoginPage
 
 
 class UnsupportedBrowserType(Exception):
@@ -24,7 +24,7 @@ def get_driver(config):
         caps = {'browserName': browser_name,
                 'version': '89.0'
                 }
-        browser = webdriver.Remote(command_executor=f"http://{attributes.SELENOID_URL}/wd/hub",
+        browser = webdriver.Remote(command_executor=f"http://{source_code_configs.SELENOID_URL}/wd/hub",
                                    options=options, desired_capabilities=caps)
     else:
         raise UnsupportedBrowserType(f' Unsupported browser {browser_name}')

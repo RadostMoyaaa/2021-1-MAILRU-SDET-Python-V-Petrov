@@ -1,9 +1,9 @@
 import allure
 
-from ui.locators.page_locators import LoginPageLocators
-from ui.pages.base_page import BasePage
-from ui.pages.main_page import MainPage
-from ui.pages.registration_page import RegistrationPage
+from ui_utils.locators.page_locators import LoginPageLocators
+from ui_utils.pages.base_page import BasePage
+from ui_utils.pages.main_page import MainPage
+from ui_utils.pages.registration_page import RegistrationPage
 
 
 class LoginPage(BasePage):

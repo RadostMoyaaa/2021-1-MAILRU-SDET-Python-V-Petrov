@@ -3,7 +3,7 @@ import shutil
 from mysql_client.client import MySqlClient
 from api_client.client import ApiClient
 import logging
-from ui.fixtures import *
+from ui_utils.fixtures import *
 
 
 def pytest_addoption(parser):

@@ -3,7 +3,7 @@ import allure
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import StaleElementReferenceException
-from ui.locators.page_locators import LoginPageLocators
+from ui_utils.locators.page_locators import LoginPageLocators
 from selenium.webdriver import ActionChains
 
 logger = logging.getLogger('test')

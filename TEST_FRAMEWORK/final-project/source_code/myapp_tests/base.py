@@ -1,10 +1,10 @@
 import pytest
 
-from builder.builder import UserBuilder
+from ui_utils.builder import UserBuilder
 from mysql_client.builder import MySQLBuilder
 from _pytest.fixtures import FixtureRequest
-from ui.pages.base_page import BasePage
-from ui.pages.login_page import LoginPage
+from ui_utils.pages.base_page import BasePage
+from ui_utils.pages.login_page import LoginPage
 
 
 class BaseCaseApi:

@@ -391,6 +391,57 @@ class TestMainPage(BaseCaseUi):
         self.main_page.driver.set_window_size(window_size[0], window_size[1])
         self.main_page.click_logout()
 
+    def test_to_much_vk_id(self):
+        """
+        Тестирование большого VK_ID в MainPage
+        0. Создать в БД пользователя
+        1. Авторизоваться
+        2. Отправить в мок данные большую строку vk_id по пользователю, получить vk_id от мока
+        3. Обновить страницу
+        4. Найти элемент с полученным vk_id
+        5. Клик на кнопку logout
+        Ожидаемый результат: Элемент в vk_id найден, выход пользователя произведен
+        """
+        vk_id = post_user_to_mock(self.user.username, 'a'*300)
+        self.main_page.driver.refresh()
+        self.main_page.get_vk_id(expected_id=vk_id)
+        self.main_page.click_logout()
+        assert 'http://app:8080/login' == self.driver.current_url
+        database_user = self.mysql_client.get_user(username=self.user.username)
+        assert database_user.active == 0
+
+    @pytest.mark.parametrize('name', ['a'*1, 'a'*15])
+    def test_name_update(self, name):
+        """
+        Тестирование обновления имени из БД - проверка имени в UI
+        0. Создать в БД пользователя
+        1. Авторизоваться
+        2. Обновить в БД имя пользователя
+        3. Обновить страницу
+        4. Проверить имя на странице с обновленным
+        Ожидаемый результат: имя пользователя соответствует обновленному
+        """
+        user = self.mysql_client.update_username(self.user, name)
+        self.mysql_builder.users.append(user)
+        self.main_page.driver.refresh()
+        assert self.main_page.get_username() == f'Logged as {self.user.username}'
+
+    def test_access_update(self):
+        """
+        Тестирование блокировки доступа из БД
+        0. Создать в БД пользователя
+        1. Авторизоваться
+        2. Заблокировать пользователя в БД
+        3. Обновить страницу
+        4. Проверить текущий url на соответствие редирект на страницу логин
+        5. Проверить состояние active пользователя в БД
+        Ожидаемый результат: пользователь имеет статус active равный 0
+        """
+        self.mysql_client.update_access(self.user, 0)
+        self.main_page.driver.refresh()
+        assert 'http://app:8080/login?next=/welcome/' == self.driver.current_url
+        user = self.mysql_client.get_user(username=self.user.username)
+        assert user.active == 0, f'Logged user is active after blocking {user}'
 
 @pytest.mark.ui
 @pytest.mark.negative
@@ -407,21 +458,3 @@ class TestMainPageNegative(BaseCaseUi):
         with pytest.raises(TimeoutException):
             self.main_page.get_vk_id()
 
-    def test_to_much_vk_id(self):
-        """
-        Тестирование большого VK_ID в MainPage
-        0. Создать в БД пользователя
-        1. Авторизоваться
-        2. Отправить в мок данные большую строку vk_id по пользователю, получить vk_id от мока
-        3. Обновить страницу
-        4. Найти элемент с полученным vk_id
-        5. Клик на кнопку logout
-        Ожидаемый результат: Элемент в vk_id найден, выход пользователя произведен
-        """
-        vk_id = post_user_to_mock(self.user.username, 'a'*300)
-        self.main_page.driver.refresh()
-        self.main_page.get_vk_id(expected_id=vk_id)
-        self.main_page.click_logout()
-        assert 'http://0.0.0.0:8080/login' == self.driver.current_url
-        database_user = self.mysql_client.get_user(username=self.user.username)
-        assert database_user.active == 0
